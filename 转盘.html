@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="spinBtn">吃啥</div>
+      <div class="wheel">
+        <div class="number" style="--i: 1; --clr: #db7093">
+          <span>沙县</span>
+        </div>
+        <div class="number" style="--i: 2; --clr: #20b2aa">
+          <span>汤粉</span>
+        </div>
+        <div class="number" style="--i: 3; --clr: #d63e92">
+          <span>炒饭</span>
+        </div>
+        <div class="number" style="--i: 4; --clr: #daa520">
+          <span>麻辣烫</span>
+        </div>
+        <div class="number" style="--i: 5; --clr: #dd340f">
+          <span>汤饭</span>
+        </div>
+        <div class="number" style="--i: 6; --clr: #ff7f50">
+          <span>火锅</span>
+        </div>
+        <div class="number" style="--i: 7; --clr: #3cb371">
+          <span>酸菜鱼</span>
+        </div>
+        <div class="number" style="--i: 8; --clr: #4169e1">
+          <span>寿司</span>
+        </div>
+      </div>
+      <div class="selected">选中：<span id="selectedItem">-</span></div>
+    </div>
+
+    <script>
+      const wheel = document.querySelector(".wheel");
+      const spinBtn = document.querySelector(".spinBtn");
+      const selectedItemElement = document.getElementById("selectedItem");
+      let value = Math.ceil(Math.random() * 3600);
+
+      const items = [
+        "沙县",
+        "汤粉",
+        "炒饭",
+        "麻辣烫",
+        "汤饭",
+        "火锅",
+        "酸菜鱼",
+        "寿司",
+      ];
+
+      spinBtn.onclick = function () {
+        value += Math.ceil(Math.random() * 3600);
+        wheel.style.transform = "rotate(" + value + "deg)";
+        setTimeout(() => {
+          const selectedItemIndex = Math.floor(
+            ((value % 360) / 360) * items.length,
+          );
+          selectedItemElement.textContent =
+            items[items.length - 1 - selectedItemIndex];
+        }, 5000); // 5 seconds to match the spin animation duration
+      };
+    </script>
+  </body>
+  <style>
+    @import url("https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap");
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      min-height: 100vh;
+      background: #333;
+    }
+
+    .container {
+      position: relative;
+      width: 400px;
+      height: 400px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .spinBtn {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      background: #fff;
+      border-radius: 50%;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: #333;
+      letter-spacing: 0.1em;
+      border: 4px solid rgba(0, 0, 0, 0.75);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .spinBtn::before {
+      content: "";
+      position: absolute;
+      top: -28px;
+      width: 20px;
+      height: 30px;
+      background: #fff;
+      clip-path: polygon(50% 0%, 15% 100%, 85% 100%);
+    }
+
+    .wheel {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #333;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 5px #333,
+        0 0 0 15px #fff,
+        0 0 0 18px #111;
+      transition: transform 5s ease-in-out;
+    }
+
+    .wheel .number {
+      position: absolute;
+      width: 50%;
+      height: 50%;
+      background: var(--clr);
+      transform-origin: bottom right;
+      transform: rotate(calc(45deg * var(--i)));
+      clip-path: polygon(0 0, 56% 0, 100% 100%, 0 56%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .wheel .number span {
+      position: relative;
+      transform: rotate(45deg);
+      font-size: 2em;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 3px 5px 2px rgba(0, 0, 0, 0.15);
+    }
+
+    .selected {
+      margin-top: 20px;
+      font-size: 1.5em;
+      color: #fff;
+    }
+  </style>
+</html>
